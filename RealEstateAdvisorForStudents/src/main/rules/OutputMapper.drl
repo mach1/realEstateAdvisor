@@ -1,0 +1,114 @@
+package com.reafs.rules
+
+import com.reafs.input.UserInput;
+import com.reafs.input.types.*;
+import com.reafs.output.types.*;
+import com.reafs.output.types.RealEstateType;
+import com.reafs.estates.EstateProperty;
+
+#Distance from the neighbors rules
+rule "When distance from the neighbors is same building then suggest plot size < 500"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.SAME_BUILDING )
+	then
+		insert(PlotSize.LESS_THAN_500);
+end
+
+rule "When distance from the neighbors is few hundred meters away then suggest plot size between 500 to 1500"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.FEW_HUNDRED_METERS )
+	then
+		insert(PlotSize.FROM_500_TO_1500);
+end
+
+rule "When distance from the neighbors is more than 1km away then suggest plot size more than 1500"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.MORE_THAN_1_KM )
+	then
+		insert(PlotSize.MORE_THAN_1500);
+end
+
+rule "When distance from the neighbors is same building then suggest flat"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.SAME_BUILDING )
+	then
+		insert(RealEstateType.FLAT);
+end
+
+rule "When distance from the neighbors is same building then suggest terraced"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.SAME_BUILDING )
+	then
+		insert(RealEstateType.TERRACED);
+end
+
+rule "When distance from the neighbors is few hundred meters away then suggest terraced"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.FEW_HUNDRED_METERS )
+	then
+		insert(RealEstateType.TERRACED);
+end
+
+rule "When distance from the neighbors is few hundred meters away then suggest house"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.FEW_HUNDRED_METERS )
+	then
+		insert(RealEstateType.HOUSE);
+end
+
+rule "When distance from the neighbors is more than 1km away then suggest house"
+	when
+		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.MORE_THAN_1_KM )
+	then
+		insert(RealEstateType.HOUSE);
+end
+
+#Distance from the sea rules
+rule "When sea should be visible from the window then suggest Kesklinn as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.VISIBLE_FROM_WINDOW )
+	then
+		insert(RealEstateLocation.KESKLINN);
+end
+
+rule "When sea should be visible from the window then suggest Pirita as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.VISIBLE_FROM_WINDOW )
+	then
+		insert(RealEstateLocation.PIRITA);
+end
+
+rule "When sea should be a walk away then suggest Pirita as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.A_WALK_AWAY )
+	then
+		insert(RealEstateLocation.PIRITA);
+end
+
+rule "When sea should be a walk away then suggest Kesklinn as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.A_WALK_AWAY )
+	then
+		insert(RealEstateLocation.KESKLINN);
+end
+
+rule "When sea should be a walk away then suggest Kristiine as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.A_WALK_AWAY )
+	then
+		insert(RealEstateLocation.KRISTIINE);
+end
+
+rule "When sea distance is not important then suggest Lasnamäe as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.NOT_IMPORTANT )
+	then
+		insert(RealEstateLocation.LASNAMÄE);
+end
+
+rule "When sea distance is not important then suggest Mustamäe as location"
+	when
+		DistanceFromTheSea( this == DistanceFromTheSea.NOT_IMPORTANT )
+	then
+		insert(RealEstateLocation.MUSTAMÄE);
+end
