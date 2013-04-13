@@ -1,5 +1,7 @@
 package com.reafs.output.types;
 
-public enum TransactionType {
+import com.reafs.output.UserOutput;
+
+public enum TransactionType implements UserOutput{
 	RENT, SALE
 }

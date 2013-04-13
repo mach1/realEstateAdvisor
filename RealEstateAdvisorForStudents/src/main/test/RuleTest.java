@@ -24,6 +24,8 @@ import com.reafs.estates.EstatePropertyFactory;
 import com.reafs.input.UserInput;
 import com.reafs.input.types.DistanceFromTheNeighbors;
 import com.reafs.input.types.DistanceFromTheSea;
+import com.reafs.output.UserOutput;
+import com.reafs.output.types.PlotSize;
 import com.reafs.output.types.RealEstateType;
 
 public class RuleTest {
@@ -53,72 +55,26 @@ public class RuleTest {
 	public void testSuitableForSameBuildingDistance() {
 		List<UserInput> userInputs = new ArrayList<UserInput>();
 		userInputs.add(DistanceFromTheNeighbors.SAME_BUILDING);
-		List<EstateProperty> filteredProperties = getFilteredEstateProperties(
-				estatePropertyFactory.getEstateProperties(), userInputs);
-
-		assertEquals(true, filteredProperties.get(0).isSuitable());
-		assertEquals(true, filteredProperties.get(1).isSuitable());
-		assertEquals(false, filteredProperties.get(2).isSuitable());
-		assertEquals(false, filteredProperties.get(3).isSuitable());
+		List<UserOutput> userOutsputs = getOutput(userInputs);
+		System.out.println(userOutsputs);
+		assertTrue(userOutsputs.contains(PlotSize.LESS_THAN_500));
+		assertTrue(userOutsputs.contains(RealEstateType.FLAT));
+		assertTrue(userOutsputs.contains(RealEstateType.TERRACED));
 	}
 
-	@Test
-	public void testSuitableForFewHundredMetersAwayDistance() {
-		List<UserInput> userInputs = new ArrayList<UserInput>();
-		userInputs.add(DistanceFromTheNeighbors.FEW_HUNDRED_METERS);
-		List<EstateProperty> filteredProperties = getFilteredEstateProperties(
-				estatePropertyFactory.getEstateProperties(), userInputs);
-
-		assertEquals(false, filteredProperties.get(0).isSuitable());
-		assertEquals(false, filteredProperties.get(1).isSuitable());
-		assertEquals(true, filteredProperties.get(2).isSuitable());
-		assertEquals(false, filteredProperties.get(3).isSuitable());
-	}
-
-	@Test
-	public void testSuitableForMoreThanOneKmAwayDistance() {
-		List<UserInput> userInputs = new ArrayList<UserInput>();
-		userInputs.add(DistanceFromTheNeighbors.MORE_THAN_1_KM);
-		List<EstateProperty> filteredProperties = getFilteredEstateProperties(
-				estatePropertyFactory.getEstateProperties(), userInputs);
-
-		assertEquals(false, filteredProperties.get(0).isSuitable());
-		assertEquals(false, filteredProperties.get(1).isSuitable());
-		assertEquals(false, filteredProperties.get(2).isSuitable());
-		assertEquals(true, filteredProperties.get(3).isSuitable());
-	}
-
-	@Test
-	public void testSuitableForSeaVisible() {
-		List<UserInput> userInputs = new ArrayList<UserInput>();
-		userInputs.add(DistanceFromTheSea.VISIBLE_FROM_WINDOW);
-		List<EstateProperty> filteredProperties = getFilteredEstateProperties(
-				estatePropertyFactory.getEstateProperties(), userInputs);
-
-		assertEquals(true, filteredProperties.get(0).isSuitable());
-		assertEquals(false, filteredProperties.get(1).isSuitable());
-		assertEquals(false, filteredProperties.get(2).isSuitable());
-		assertEquals(false, filteredProperties.get(3).isSuitable());
-		assertEquals(true, filteredProperties.get(4).isSuitable());
-	}
-
-	public List<EstateProperty> getFilteredEstateProperties(
-			List<EstateProperty> estateProperties, List<UserInput> userInputs) {
+	public List<UserOutput> getOutput(List<UserInput> userInputs) {
+		List<UserOutput> userOutputs = new ArrayList<UserOutput>();
 		StatefulKnowledgeSession ksession = knowledgeBase
 				.newStatefulKnowledgeSession();
-		for (EstateProperty estateProperty : estateProperties) {
-			ksession.insert(estateProperty);
-		}
-
 		for (UserInput userInput : userInputs) {
 			ksession.insert(userInput);
 		}
 
+		ksession.insert(userOutputs);
 		ksession.fireAllRules();
-		return estateProperties;
-
+		return userOutputs;
 	}
-
+	
 	public static KnowledgeBase getKnowledgeBase() {
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
 				.newKnowledgeBuilder();

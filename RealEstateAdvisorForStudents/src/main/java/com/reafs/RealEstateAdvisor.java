@@ -18,7 +18,9 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import com.reafs.estates.EstateProperty;
 import com.reafs.estates.EstatePropertyFactory;
 import com.reafs.input.UserInput;
+import com.reafs.input.types.DistanceFromTheNeighbors;
 import com.reafs.input.types.DistanceFromTheSea;
+import com.reafs.output.UserOutput;
 
 /**
  * This is a sample class to launch a rule.
@@ -34,33 +36,22 @@ public class RealEstateAdvisor {
 			KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory
 					.newFileLogger(ksession, "test");
 			// go !
-			EstatePropertyFactory estateFactory = EstatePropertyFactory
-					.getInstance();
-
-			/*
-			 * Add estates
-			 */
-			List<EstateProperty> estateProperties = estateFactory
-					.getEstateProperties();
-			for (EstateProperty estateProperty : estateProperties) {
-				ksession.insert(estateProperty);
-			}
-
-			/*
-			 * User input
-			 */
+			
 			List<UserInput> userInputs = new ArrayList<UserInput>();
-			userInputs.add(DistanceFromTheSea.NOT_IMPORTANT);
+			userInputs.add(DistanceFromTheNeighbors.SAME_BUILDING);
+			userInputs.add(DistanceFromTheSea.VISIBLE_FROM_WINDOW);
 			for (UserInput userInput : userInputs) {
 				ksession.insert(userInput);
 			}
 
+			List<UserOutput> userOutputs = new ArrayList<UserOutput>();
+			ksession.insert(userOutputs);
 			ksession.fireAllRules();
 
 			/*
 			 * Log result
 			 */
-			System.out.println(estateProperties);
+			System.out.println(userOutputs);
 			logger.close();
 		} catch (Throwable t) {
 			t.printStackTrace();

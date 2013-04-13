@@ -1,5 +1,7 @@
 package com.reafs.output.types;
 
-public enum RealEstateLocation {
+import com.reafs.output.UserOutput;
+
+public enum RealEstateLocation implements UserOutput{
 	KESKLINN, PIRITA, KRISTIINE, LASNAMÄE, MUSTAMÄE
 }

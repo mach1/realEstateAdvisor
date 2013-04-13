@@ -5,110 +5,128 @@ import com.reafs.input.types.*;
 import com.reafs.output.types.*;
 import com.reafs.output.types.RealEstateType;
 import com.reafs.estates.EstateProperty;
+import java.util.List;
+import com.reafs.output.UserOutput;
+
 
 #Distance from the neighbors rules
 rule "When distance from the neighbors is same building then suggest plot size < 500"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.SAME_BUILDING )
+		outputList : List()
 	then
-		insert(PlotSize.LESS_THAN_500);
+		outputList.add(PlotSize.LESS_THAN_500);
 end
 
 rule "When distance from the neighbors is few hundred meters away then suggest plot size between 500 to 1500"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.FEW_HUNDRED_METERS )
+		outputList : List()
 	then
-		insert(PlotSize.FROM_500_TO_1500);
+		outputList.add(PlotSize.FROM_500_TO_1500);
 end
 
 rule "When distance from the neighbors is more than 1km away then suggest plot size more than 1500"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.MORE_THAN_1_KM )
+		outputList : List()
 	then
-		insert(PlotSize.MORE_THAN_1500);
+		outputList.add(PlotSize.MORE_THAN_1500);
 end
 
 rule "When distance from the neighbors is same building then suggest flat"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.SAME_BUILDING )
+		outputList : List()
 	then
-		insert(RealEstateType.FLAT);
+		outputList.add(RealEstateType.FLAT);
 end
 
 rule "When distance from the neighbors is same building then suggest terraced"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.SAME_BUILDING )
+		outputList : List()
 	then
-		insert(RealEstateType.TERRACED);
+		outputList.add(RealEstateType.TERRACED);
 end
 
 rule "When distance from the neighbors is few hundred meters away then suggest terraced"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.FEW_HUNDRED_METERS )
+		outputList : List()
 	then
-		insert(RealEstateType.TERRACED);
+		outputList.add(RealEstateType.TERRACED);
 end
 
 rule "When distance from the neighbors is few hundred meters away then suggest house"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.FEW_HUNDRED_METERS )
+		outputList : List()
 	then
-		insert(RealEstateType.HOUSE);
+		outputList.add(RealEstateType.HOUSE);
 end
 
 rule "When distance from the neighbors is more than 1km away then suggest house"
 	when
 		DistanceFromTheNeighbors( this == DistanceFromTheNeighbors.MORE_THAN_1_KM )
+		outputList : List()
 	then
-		insert(RealEstateType.HOUSE);
+		outputList.add(RealEstateType.HOUSE);
 end
 
 #Distance from the sea rules
 rule "When sea should be visible from the window then suggest Kesklinn as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.VISIBLE_FROM_WINDOW )
+		outputList : List()
 	then
-		insert(RealEstateLocation.KESKLINN);
+		outputList.add(RealEstateLocation.KESKLINN);
 end
 
 rule "When sea should be visible from the window then suggest Pirita as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.VISIBLE_FROM_WINDOW )
+		outputList : List()
 	then
-		insert(RealEstateLocation.PIRITA);
+		outputList.add(RealEstateLocation.PIRITA);
 end
 
 rule "When sea should be a walk away then suggest Pirita as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.A_WALK_AWAY )
+		outputList : List()
 	then
-		insert(RealEstateLocation.PIRITA);
+		outputList.add(RealEstateLocation.PIRITA);
 end
 
 rule "When sea should be a walk away then suggest Kesklinn as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.A_WALK_AWAY )
+		outputList : List()
 	then
-		insert(RealEstateLocation.KESKLINN);
+		outputList.add(RealEstateLocation.KESKLINN);
 end
 
 rule "When sea should be a walk away then suggest Kristiine as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.A_WALK_AWAY )
+		outputList : List()
 	then
-		insert(RealEstateLocation.KRISTIINE);
+		outputList.add(RealEstateLocation.KRISTIINE);
 end
 
 rule "When sea distance is not important then suggest Lasnamäe as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.NOT_IMPORTANT )
+		outputList : List()
 	then
-		insert(RealEstateLocation.LASNAMÄE);
+		outputList.add(RealEstateLocation.LASNAMÄE);
 end
 
 rule "When sea distance is not important then suggest Mustamäe as location"
 	when
 		DistanceFromTheSea( this == DistanceFromTheSea.NOT_IMPORTANT )
+		outputList : List()
 	then
-		insert(RealEstateLocation.MUSTAMÄE);
+		outputList.add(RealEstateLocation.MUSTAMÄE);
 end

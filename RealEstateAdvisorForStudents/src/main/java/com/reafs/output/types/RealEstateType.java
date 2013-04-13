@@ -1,5 +1,7 @@
 package com.reafs.output.types;
 
-public enum RealEstateType {
+import com.reafs.output.UserOutput;
+
+public enum RealEstateType implements UserOutput{
 	FLAT, TERRACED, HOUSE
 }
